@@ -1,0 +1,1429 @@
+<!DOCTYPE html>
+<html dir="rtl" lang="fa">
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>پنل کافی نت | مدیریت لینک‌ها</title>
+    <link href="https://fonts.googleapis.com" rel="preconnect" />
+    <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect" />
+    <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;500;700;900&display=swap" rel="stylesheet" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" rel="stylesheet" />
+    <style>
+        /* ===== استایل‌های کامل ===== */
+        :root {
+            --primary: #0d6efd;
+            --bg: #f4f7fb;
+            --card: #fff;
+            --text: #2c3345;
+            --muted: #8a93a5;
+            --radius: 14px;
+            --danger: #dc3545;
+            --success: #28a745;
+            --warning: #ffc107;
+        }
+        * {
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Vazirmatn', Tahoma, sans-serif;
+            background: var(--bg);
+            margin: 0;
+            color: var(--text);
+        }
+
+        .header {
+            background: linear-gradient(135deg, #0d6efd, #6f42c1);
+            color: #fff;
+            text-align: center;
+            padding: 28px 16px 70px;
+            border-radius: 0 0 26px 26px;
+        }
+        .header h1 {
+            margin: 0;
+            font-size: 24px;
+            font-weight: 900;
+        }
+        .header p {
+            margin: 6px 0 0;
+            opacity: .85;
+            font-size: 13px;
+        }
+        .contact-info {
+            display: inline-block;
+            margin-top: 12px;
+            padding: 6px 16px;
+            border-radius: 16px;
+            border: 1px dashed rgba(255, 255, 255, .5);
+            background: rgba(255, 255, 255, .15);
+            font-size: 13px;
+        }
+
+        .search-wrap {
+            max-width: 640px;
+            margin: -45px auto 0;
+            padding: 0 14px;
+            position: sticky;
+            top: 10px;
+            z-index: 100;
+        }
+        .search-box {
+            width: 100%;
+            padding: 15px 48px 15px 20px;
+            border-radius: 32px;
+            border: none;
+            outline: none;
+            font-family: inherit;
+            font-size: 15px;
+            box-shadow: 0 10px 30px rgba(13, 110, 253, .25);
+        }
+        .search-wrap .fa-magnifying-glass {
+            position: absolute;
+            top: 50%;
+            right: 20px;
+            transform: translateY(-50%);
+            color: var(--muted);
+        }
+        .count {
+            text-align: center;
+            color: var(--muted);
+            font-size: 12px;
+            margin-top: 14px;
+        }
+
+        .tabs {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 8px;
+            margin: 20px 14px 6px;
+        }
+        .tab-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 7px;
+            padding: 9px 16px;
+            border: none;
+            background: #fff;
+            border-bottom: 3px solid transparent;
+            border-radius: 14px;
+            cursor: pointer;
+            font-family: inherit;
+            font-weight: 700;
+            font-size: 13px;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, .06);
+            transition: .2s;
+        }
+        .tab-btn:hover {
+            transform: translateY(-2px);
+        }
+        .tab-btn.active {
+            background: var(--primary);
+            color: #fff;
+        }
+        .tab-btn.active i {
+            color: #fff;
+        }
+        .tab-btn .badge {
+            background: var(--primary);
+            color: #fff;
+            border-radius: 50%;
+            padding: 0 6px;
+            font-size: 10px;
+            min-width: 18px;
+            text-align: center;
+        }
+        .tab-btn.active .badge {
+            background: #fff;
+            color: var(--primary);
+        }
+
+        .cat {
+            max-width: 1100px;
+            margin: 10px auto 0;
+            padding: 0 14px;
+        }
+        .cat h2 {
+            font-size: 17px;
+            margin: 26px 0 4px;
+            padding-bottom: 8px;
+            border-bottom: 2px solid #e6eaf2;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        .cat h2 .cat-actions {
+            display: flex;
+            gap: 6px;
+        }
+        .cat h2 .cat-actions button {
+            padding: 4px 12px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-family: inherit;
+            font-size: 12px;
+            font-weight: 700;
+            transition: .2s;
+        }
+        .cat h2 .cat-actions .btn-add {
+            background: var(--success);
+            color: #fff;
+        }
+        .cat h2 .cat-actions .btn-add:hover {
+            transform: scale(1.05);
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(210px, 1fr));
+            gap: 12px;
+        }
+        .card {
+            display: flex;
+            align-items: center;
+            gap: 11px;
+            background: var(--card);
+            padding: 14px 15px;
+            border-radius: var(--radius);
+            border-right: 5px solid var(--primary);
+            text-decoration: none;
+            color: var(--text);
+            font-size: 13.5px;
+            font-weight: 700;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, .05);
+            transition: .2s;
+            position: relative;
+        }
+        .card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 18px rgba(0, 0, 0, .1);
+            border-right-width: 9px;
+        }
+        .card .icon {
+            font-size: 19px;
+            min-width: 22px;
+            text-align: center;
+        }
+        .card .card-actions {
+            display: none;
+            gap: 4px;
+            margin-right: auto;
+        }
+        .card:hover .card-actions {
+            display: flex;
+        }
+        .card .card-actions button {
+            border: none;
+            background: transparent;
+            cursor: pointer;
+            font-size: 13px;
+            padding: 2px 6px;
+            border-radius: 4px;
+            transition: .2s;
+        }
+        .card .card-actions .btn-edit {
+            color: var(--warning);
+        }
+        .card .card-actions .btn-edit:hover {
+            background: var(--warning);
+            color: #fff;
+        }
+        .card .card-actions .btn-delete {
+            color: var(--danger);
+        }
+        .card .card-actions .btn-delete:hover {
+            background: var(--danger);
+            color: #fff;
+        }
+        @media (max-width:480px) {
+            .grid {
+                grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            }
+            .card {
+                font-size: 12.5px;
+            }
+            .card .card-actions {
+                display: flex;
+                gap: 2px;
+            }
+            .card .card-actions button {
+                font-size: 11px;
+                padding: 1px 4px;
+            }
+        }
+
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, .5);
+            z-index: 9999;
+            justify-content: center;
+            align-items: center;
+            backdrop-filter: blur(4px);
+        }
+        .modal-overlay.active {
+            display: flex;
+        }
+        .modal {
+            background: #fff;
+            padding: 32px 28px;
+            border-radius: 20px;
+            max-width: 480px;
+            width: 92%;
+            max-height: 90vh;
+            overflow-y: auto;
+            animation: pop .3s ease;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, .3);
+        }
+        @keyframes pop {
+            from {
+                transform: scale(.9) translateY(20px);
+                opacity: 0;
+            }
+            to {
+                transform: scale(1) translateY(0);
+                opacity: 1;
+            }
+        }
+        .modal h3 {
+            margin: 0 0 6px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .modal p {
+            color: var(--muted);
+            font-size: 13px;
+            margin: 0 0 18px;
+        }
+        .modal label {
+            display: block;
+            font-weight: 700;
+            font-size: 13px;
+            margin-top: 12px;
+            margin-bottom: 4px;
+        }
+        .modal input,
+        .modal select {
+            width: 100%;
+            padding: 10px 14px;
+            border: 2px solid #e3e8f0;
+            border-radius: 12px;
+            font-family: inherit;
+            font-size: 14px;
+            outline: none;
+            transition: .2s;
+        }
+        .modal input:focus,
+        .modal select:focus {
+            border-color: var(--primary);
+        }
+        .modal .modal-actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+        }
+        .modal .modal-actions button {
+            flex: 1;
+            padding: 11px;
+            border: none;
+            border-radius: 12px;
+            cursor: pointer;
+            font-family: inherit;
+            font-weight: 700;
+            font-size: 14px;
+            transition: .2s;
+        }
+        .modal .modal-actions .btn-save {
+            background: var(--primary);
+            color: #fff;
+        }
+        .modal .modal-actions .btn-save:hover {
+            filter: brightness(1.1);
+        }
+        .modal .modal-actions .btn-cancel {
+            background: #e9ecef;
+            color: var(--text);
+        }
+        .modal .modal-actions .btn-cancel:hover {
+            background: #dee2e6;
+        }
+
+        footer {
+            text-align: center;
+            color: var(--muted);
+            font-size: 12px;
+            margin-top: 40px;
+        }
+
+        .social-links {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 7px;
+            margin-top: 8px;
+            direction: rtl;
+        }
+        .social-links a {
+            display: inline-block;
+            padding: 5px 9px;
+            border-radius: 10px;
+            background: rgba(255, 255, 255, .12);
+            color: inherit;
+            text-decoration: none;
+            transition: .2s;
+        }
+        .social-links a:hover {
+            transform: translateY(-1px);
+            filter: brightness(1.05);
+        }
+        .designer-credit {
+            color: #6f42c1;
+            font-size: 13px;
+            font-weight: 700;
+            line-height: 1.9;
+            margin-bottom: 14px;
+        }
+        .main-credit {
+            color: #fff;
+            margin: 0 auto 12px;
+            font-size: 14px;
+            font-weight: 700;
+        }
+        .main-credit .social-links a {
+            background: rgba(255, 255, 255, .15);
+        }
+
+        .toast {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #333;
+            color: #fff;
+            padding: 12px 24px;
+            border-radius: 12px;
+            font-weight: 700;
+            z-index: 99999;
+            animation: slideUp .4s ease;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, .2);
+        }
+        @keyframes slideUp {
+            from {
+                transform: translateX(-50%) translateY(40px);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(-50%) translateY(0);
+                opacity: 1;
+            }
+        }
+        .toast.success {
+            background: var(--success);
+        }
+        .toast.error {
+            background: var(--danger);
+        }
+        .toast.info {
+            background: var(--primary);
+        }
+
+        .empty-state {
+            text-align: center;
+            color: var(--muted);
+            padding: 40px 20px;
+            font-size: 14px;
+        }
+        .empty-state i {
+            font-size: 40px;
+            display: block;
+            margin-bottom: 12px;
+        }
+
+        .github-config {
+            background: #fff;
+            border-radius: var(--radius);
+            padding: 16px 20px;
+            margin: 10px 14px;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, .08);
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 10px;
+            justify-content: center;
+        }
+        .github-config input {
+            padding: 8px 14px;
+            border: 2px solid #e3e8f0;
+            border-radius: 10px;
+            font-family: inherit;
+            font-size: 13px;
+            outline: none;
+            min-width: 200px;
+            flex: 1;
+        }
+        .github-config input:focus {
+            border-color: var(--primary);
+        }
+        .github-config button {
+            padding: 8px 20px;
+            border: none;
+            border-radius: 10px;
+            background: var(--primary);
+            color: #fff;
+            font-family: inherit;
+            font-weight: 700;
+            cursor: pointer;
+            transition: .2s;
+        }
+        .github-config button:hover {
+            filter: brightness(1.1);
+        }
+        .github-config .status {
+            font-size: 13px;
+            color: var(--muted);
+        }
+        .github-config .status.success {
+            color: var(--success);
+        }
+        .github-config .status.error {
+            color: var(--danger);
+        }
+        .loading-spinner {
+            display: inline-block;
+            width: 18px;
+            height: 18px;
+            border: 3px solid #f3f3f3;
+            border-top: 3px solid var(--primary);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin {
+            0% {
+                transform: rotate(0deg);
+            }
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div id="main-content">
+        <div class="header">
+            <div class="designer-credit main-credit">طراحی و ساخت مهندس پناهی<br>
+                <div class="social-links">
+                    <a href="tg://resolve?domain=Alireza7adz">Alireza7adz@ تلگرام</a>
+                    <a href="eitaa://@Alireza7adz">Alireza7adz@ ایتا</a>
+                    <a href="https://www.instagram.com/alireza_panahii72/">alireza_panahii72@ اینستاگرام</a>
+                </div>
+            </div>
+            <h1><i class="fa-solid fa-globe"></i> سامانه جامع لینک‌های کاربردی</h1>
+            <p>پنل کافی‌نت | Panal Kafe Net — مرکز مدیریت خدمات</p>
+            <div class="contact-info">📞 پشتیبانی و هماهنگی: ۰۹۳۶۹۳۸۱۸۳۷</div>
+        </div>
+
+        <!-- تنظیمات GitHub -->
+        <div class="github-config">
+            <span style="font-weight:700;font-size:13px;">🔗 اتصال به GitHub:</span>
+            <input id="githubToken" placeholder="توکن شخصی GitHub" type="password" />
+            <input id="githubRepo" placeholder="username/repo" value="your-username/your-repo" />
+            <input id="githubPath" placeholder="مسیر فایل JSON" value="data.json" />
+            <button onclick="connectGitHub()"><i class="fa-solid fa-plug"></i> اتصال</button>
+            <span class="status" id="githubStatus">⛔ متصل نیست</span>
+        </div>
+
+        <div class="search-wrap">
+            <i class="fa-solid fa-magnifying-glass"></i>
+            <input class="search-box" id="searchInput" oninput="search()" placeholder="جستجوی سریع در تمامی دسته‌ها..." type="text" />
+        </div>
+
+        <div class="count" id="count">در حال بارگذاری...</div>
+
+        <div class="tabs" id="tabBar">
+            <button class="tab-btn active" data-tab="all"><i class="fa-solid fa-layer-group"></i> همه لینک‌ها <span class="badge" id="badge-all">0</span></button>
+            <button class="tab-btn" data-tab="bank"><i class="fa-solid fa-building-columns"></i> بانکی، مالی <span class="badge" id="badge-bank">0</span></button>
+            <button class="tab-btn" data-tab="work"><i class="fa-solid fa-briefcase"></i> کار، بیمه <span class="badge" id="badge-work">0</span></button>
+            <button class="tab-btn" data-tab="car"><i class="fa-solid fa-car"></i> خودرو <span class="badge" id="badge-car">0</span></button>
+            <button class="tab-btn" data-tab="gov"><i class="fa-solid fa-landmark"></i> دولتی، قضایی <span class="badge" id="badge-gov">0</span></button>
+            <button class="tab-btn" data-tab="edu"><i class="fa-solid fa-graduation-cap"></i> آموزش <span class="badge" id="badge-edu">0</span></button>
+            <button class="tab-btn" data-tab="social"><i class="fa-solid fa-comments"></i> پیام‌رسان‌ها <span class="badge" id="badge-social">0</span></button>
+            <button class="tab-btn" data-tab="tools"><i class="fa-solid fa-toolbox"></i> ابزارها <span class="badge" id="badge-tools">0</span></button>
+        </div>
+
+        <div id="categories-container"></div>
+
+        <footer>
+            پنل کافی‌نت © طراحی‌شده با <i class="fa-solid fa-heart" style="color:#dc3545"></i> برای مدیریت سریع خدمات
+        </footer>
+    </div>
+
+    <!-- مودال -->
+    <div class="modal-overlay" id="modalOverlay">
+        <div class="modal">
+            <h3 id="modalTitle"><i class="fa-solid fa-plus-circle" style="color:var(--success)"></i> افزودن لینک جدید</h3>
+            <p id="modalDesc">اطلاعات لینک را وارد کنید</p>
+
+            <label for="modalName">عنوان لینک</label>
+            <input id="modalName" placeholder="مثال: سامانه حسام" />
+
+            <label for="modalUrl">آدرس لینک (URL)</label>
+            <input id="modalUrl" placeholder="https://example.com" />
+
+            <label for="modalIcon">آیکون (Font Awesome)</label>
+            <input id="modalIcon" placeholder="fa-solid fa-landmark" value="fa-solid fa-link" />
+
+            <label for="modalCategory">دسته‌بندی</label>
+            <select id="modalCategory">
+                <option value="bank">💰 امور بانکی، مالی و مالیاتی</option>
+                <option value="work">🛠️ کار، بیمه و تأمین اجتماعی</option>
+                <option value="car">🚗 خودرو و حمل‌ونقل</option>
+                <option value="gov">🏛️ خدمات دولتی و قضایی</option>
+                <option value="edu">🎓 آموزش و دانشگاه</option>
+                <option value="social">📱 پیام‌رسان‌ها و شبکه‌های اجتماعی</option>
+                <option value="tools">🛠️ ابزارها، اینترنت و سایر</option>
+            </select>
+
+            <div class="modal-actions">
+                <button class="btn-save" id="modalSaveBtn" onclick="saveLink()"><i class="fa-solid fa-check"></i> ذخیره</button>
+                <button class="btn-cancel" onclick="closeModal()"><i class="fa-solid fa-xmark"></i> انصراف</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // ============================================
+        // مدیریت داده‌ها با GitHub API
+        // ============================================
+
+        const CATEGORIES = {
+            bank: { name: '💰 امور بانکی، مالی و مالیاتی', color: '#0d6efd', icon: 'fa-solid fa-building-columns' },
+            work: { name: '🛠️ کار، بیمه و تأمین اجتماعی', color: '#fd7e14', icon: 'fa-solid fa-briefcase' },
+            car: { name: '🚗 خودرو و حمل‌ونقل', color: '#20c997', icon: 'fa-solid fa-car' },
+            gov: { name: '🏛️ خدمات دولتی و قضایی', color: '#6f42c1', icon: 'fa-solid fa-landmark' },
+            edu: { name: '🎓 آموزش و دانشگاه', color: '#e83e8c', icon: 'fa-solid fa-graduation-cap' },
+            social: { name: '📱 پیام‌رسان‌ها و شبکه‌های اجتماعی', color: '#dc3545', icon: 'fa-solid fa-comments' },
+            tools: { name: '🛠️ ابزارها، اینترنت و سایر', color: '#198754', icon: 'fa-solid fa-toolbox' }
+        };
+
+        // داده‌های پیش‌فرض (همان لینک‌های قبلی)
+        let linksData = [];
+        let editingId = null;
+        let activeTab = 'all';
+        let githubConfig = {
+            token: '',
+            repo: '',
+            path: 'data.json',
+            connected: false,
+            sha: null
+        };
+
+        // ============================================
+        // توابع ارتباط با GitHub
+        // ============================================
+
+        function connectGitHub() {
+            const token = document.getElementById('githubToken').value.trim();
+            const repo = document.getElementById('githubRepo').value.trim();
+            const path = document.getElementById('githubPath').value.trim();
+
+            if (!token || !repo) {
+                showToast('لطفاً توکن و نام مخزن را وارد کنید', 'error');
+                return;
+            }
+
+            githubConfig.token = token;
+            githubConfig.repo = repo;
+            githubConfig.path = path || 'data.json';
+
+            document.getElementById('githubStatus').innerHTML = '<span class="loading-spinner"></span> در حال اتصال...';
+
+            // تست اتصال و دریافت داده
+            fetchGitHubFile()
+                .then(data => {
+                    githubConfig.connected = true;
+                    document.getElementById('githubStatus').className = 'status success';
+                    document.getElementById('githubStatus').textContent = '✅ متصل - ' + (data ? data.length + ' لینک' :
+                    '0 لینک');
+                    if (data) {
+                        linksData = data;
+                        renderAll();
+                        showToast('داده‌ها با موفقیت بارگذاری شدند', 'success');
+                    } else {
+                        // فایل وجود ندارد یا خالی است
+                        linksData = getDefaultLinks();
+                        renderAll();
+                        showToast('فایل داده خالی بود، داده‌های پیش‌فرض بارگذاری شدند', 'info');
+                    }
+                })
+                .catch(err => {
+                    githubConfig.connected = false;
+                    document.getElementById('githubStatus').className = 'status error';
+                    document.getElementById('githubStatus').textContent = '❌ خطا: ' + err.message;
+                    showToast('خطا در اتصال به GitHub: ' + err.message, 'error');
+                    // بارگذاری داده‌های پیش‌فرض
+                    linksData = getDefaultLinks();
+                    renderAll();
+                });
+        }
+
+        function fetchGitHubFile() {
+            const url = `https://api.github.com/repos/${githubConfig.repo}/contents/${githubConfig.path}`;
+
+            return fetch(url, {
+                headers: {
+                    'Authorization': `token ${githubConfig.token}`,
+                    'Accept': 'application/vnd.github.v3+json'
+                }
+            }).then(response => {
+                if (response.status === 404) {
+                    // فایل وجود ندارد
+                    return null;
+                }
+                if (!response.ok) {
+                    throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+                }
+                return response.json();
+            }).then(data => {
+                if (!data) return null;
+                githubConfig.sha = data.sha;
+                const content = atob(data.content);
+                try {
+                    const parsed = JSON.parse(content);
+                    return parsed;
+                } catch (e) {
+                    return null;
+                }
+            });
+        }
+
+        function saveToGitHub(data) {
+            if (!githubConfig.connected) {
+                showToast('ابتدا به GitHub متصل شوید!', 'error');
+                return Promise.reject('Not connected');
+            }
+
+            const content = btoa(unescape(encodeURIComponent(JSON.stringify(data, null, 2))));
+            const url = `https://api.github.com/repos/${githubConfig.repo}/contents/${githubConfig.path}`;
+
+            const body = {
+                message: 'به‌روزرسانی لینک‌ها',
+                content: content,
+                branch: 'main'
+            };
+
+            if (githubConfig.sha) {
+                body.sha = githubConfig.sha;
+            }
+
+            return fetch(url, {
+                method: 'PUT',
+                headers: {
+                    'Authorization': `token ${githubConfig.token}`,
+                    'Accept': 'application/vnd.github.v3+json',
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(body)
+            }).then(response => {
+                if (!response.ok) {
+                    return response.json().then(err => {
+                        throw new Error(err.message || 'خطا در ذخیره‌سازی');
+                    });
+                }
+                return response.json();
+            }).then(result => {
+                githubConfig.sha = result.content.sha;
+                showToast('تغییرات با موفقیت ذخیره شد! ✅', 'success');
+                document.getElementById('githubStatus').className = 'status success';
+                document.getElementById('githubStatus').textContent = '✅ متصل - ' + data.length + ' لینک';
+                return result;
+            });
+        }
+
+        // ============================================
+        // داده‌های پیش‌فرض
+        // ============================================
+
+        function getDefaultLinks() {
+            const defaultLinks = [
+                // bank
+                { id: 1, name: 'سامانه حسام', url: 'https://my.cbi.ir/login?', icon: 'fa-solid fa-landmark',
+                category: 'bank' },
+                { id: 2, name: 'بوستان دانشجویان ملی مهارت', url: 'https://bustan.tvu.ac.ir/',
+                    icon: 'fa-solid fa-graduation-cap', category: 'bank' },
+                { id: 3, name: 'وام سربازی (سماسو)', url: 'https://reg.samasoo.ir/users',
+                    icon: 'fa-solid fa-hand-holding-dollar', category: 'bank' },
+                { id: 4, name: 'سجام', url: 'https://www.sejam.ir/', icon: 'fa-solid fa-id-card', category: 'bank' },
+                { id: 5, name: 'احراز هویت سجام', url: 'https://www.sejam.ir/fa/ElectronicAuthentication',
+                    icon: 'fa-solid fa-user-check', category: 'bank' },
+                { id: 6, name: 'مای تکس (مالیات)', url: 'https://my.tax.gov.ir/', icon: 'fa-solid fa-file-invoice-dollar',
+                    category: 'bank' },
+                { id: 7, name: 'بانک رسالت', url: 'https://qhamian.ir/', icon: 'fa-solid fa-piggy-bank',
+                category: 'bank' },
+                { id: 8, name: 'اعتبارسنجی مرات', url: 'https://imerat.ir/', icon: 'fa-solid fa-magnifying-glass-chart',
+                    category: 'bank' },
+                { id: 9, name: 'صیادی بانک ملی', url: 'https://sayad.bmi.ir', icon: 'fa-solid fa-landmark',
+                category: 'bank' },
+                { id: 10, name: 'قسط کارت اعتباری ملی', url: 'https://bmicc.ir', icon: 'fa-solid fa-credit-card',
+                    category: 'bank' },
+                { id: 11, name: 'اعتبارسنجی بانکی', url: 'https://etebaritoapp.ics24.ir/login',
+                    icon: 'fa-solid fa-chart-line', category: 'bank' },
+                { id: 12, name: 'بانک ملی (بام)', url: 'https://baambank.ir', icon: 'fa-solid fa-building-columns',
+                    category: 'bank' },
+                { id: 13, name: 'فرابانک ملت', url: 'https://www.bankmellat.ir/farabank_accommodations.aspx',
+                    icon: 'fa-solid fa-building-columns', category: 'bank' },
+                { id: 14, name: 'بانک صادرات', url: 'https://www.bsi.ir', icon: 'fa-solid fa-building-columns',
+                    category: 'bank' },
+                { id: 15, name: 'بانک تجارت', url: 'https://www.tejaratbank.ir', icon: 'fa-solid fa-building-columns',
+                    category: 'bank' },
+                { id: 16, name: 'بانک پاسارگاد', url: 'https://vbank.bpi.ir/', icon: 'fa-solid fa-building-columns',
+                    category: 'bank' },
+                { id: 17, name: 'بانک سامان', url: 'https://www.sb24.ir/home/', icon: 'fa-solid fa-building-columns',
+                    category: 'bank' },
+                { id: 18, name: 'بانک کشاورزی', url: 'https://www.bki.ir/', icon: 'fa-solid fa-building-columns',
+                    category: 'bank' },
+                { id: 19, name: 'بانک سپه', url: 'https://banksepah.ir', icon: 'fa-solid fa-building-columns',
+                    category: 'bank' },
+                { id: 20, name: 'بانک مسکن', url: 'https://www.bank-maskan.ir/', icon: 'fa-solid fa-building-columns',
+                    category: 'bank' },
+                { id: 21, name: 'بانک شهر', url: 'https://www.shahr-bank.ir/', icon: 'fa-solid fa-building-columns',
+                    category: 'bank' },
+                { id: 22, name: 'بانک توسعه صادرات', url: 'https://bpi.ir', icon: 'fa-solid fa-building-columns',
+                    category: 'bank' },
+                { id: 23, name: 'سامانه راهبردی مالیات', url: 'https://tax.gov.ir', icon: 'fa-solid fa-file-invoice',
+                    category: 'bank' },
+                { id: 24, name: 'صندوق بازنشستگی کشوری', url: 'https://www.cspf.ir/', icon: 'fa-solid fa-piggy-bank',
+                    category: 'bank' },
+                { id: 25, name: 'سامانه چکاوک (استعلام چک)', url: 'https://chekavak.ir', icon: 'fa-solid fa-money-check',
+                    category: 'bank' },
+                { id: 26, name: 'سامانه صیاد', url: 'https://www.cbi.ir', icon: 'fa-solid fa-landmark-flag',
+                    category: 'bank' },
+                { id: 27, name: 'قبضینو', url: 'https://ghabzino.com/', icon: 'fa-solid fa-file-invoice-dollar',
+                    category: 'bank' },
+                { id: 28, name: 'قسط بانک ملی (کارت اعتباری)', url: 'https://bmicc.ir/', icon: 'fa-solid fa-credit-card',
+                    category: 'bank' },
+                { id: 29, name: 'وام ازدواج', url: 'https://ve.cbi.ir/Default.aspx', icon: 'fa-solid fa-building-columns',
+                    category: 'bank' },
+                { id: 30, name: 'بیمه ما', url: 'https://myclm.bimehma.com/', icon: 'fa-solid fa-building-columns',
+                    category: 'bank' },
+                { id: 31, name: 'بیمه ایران', url: 'https://my.iraninsurance.ir/', icon: 'fa-solid fa-building-columns',
+                    category: 'bank' },
+                { id: 32, name: 'ذینفعان بازار سرمایه (دارا)', url: 'https://dara.csdiran.ir/login',
+                    icon: 'fa-solid fa-building-columns', category: 'bank' },
+                { id: 33, name: 'پیشخوان رسالت', url: 'https://pishkhan.rqbank.ir/', icon: 'fa-solid fa-landmark',
+                    category: 'bank' },
+                { id: 34, name: 'ارزیابی توان مالی رسالت', url: 'https://user.imerat.ir/#/auth/login',
+                    icon: 'fa-solid fa-chart-line', category: 'bank' },
+                { id: 35, name: 'ارزیابی مرآت', url: 'https://omerat.ir/#!/login',
+                    icon: 'fa-solid fa-magnifying-glass-chart', category: 'bank' },
+                { id: 36, name: 'ام رسالت', url: 'https://www.mresalat.ir/fa', icon: 'fa-solid fa-building-columns',
+                    category: 'bank' },
+                // work
+                { id: 37, name: 'بیمه ورزشی', url: 'https://athlete.ifsm.ir/login', icon: 'fa-solid fa-person-running',
+                    category: 'work' },
+                { id: 38, name: 'تأمین اجتماعی', url: 'https://account.tamin.ir/auth/login',
+                    icon: 'fa-solid fa-hospital-user', category: 'work' },
+                { id: 39, name: 'بیمه بیکاری', url: 'https://prkar.mcls.gov.ir', icon: 'fa-solid fa-handshake',
+                    category: 'work' },
+                { id: 40, name: 'بیمه سلامت همگانی', url: 'https://hir.ihio.gov.ir/', icon: 'fa-solid fa-heart-pulse',
+                    category: 'work' },
+                { id: 41, name: 'کار و رفاه اجتماعی', url: 'https://www.mcls.gov.ir/', icon: 'fa-solid fa-briefcase',
+                    category: 'work' },
+                { id: 42, name: 'سامانه اظهار کارگاهی', url: 'https://elist.tamin.ir', icon: 'fa-solid fa-clipboard-list',
+                    category: 'work' },
+                { id: 43, name: 'خدمات قانون کار (سهیل)', url: 'https://soha.mcls.gov.ir',
+                    icon: 'fa-solid fa-scale-balanced', category: 'work' },
+                { id: 44, name: 'بیمه روستایی', url: 'https://www.roostaa.ir/', icon: 'fa-solid fa-person-digging',
+                    category: 'work' },
+                { id: 45, name: 'سامانه اشتغال (کارا)', url: 'https://kara.mcls.gov.ir', icon: 'fa-solid fa-users',
+                    category: 'work' },
+                { id: 46, name: 'بیمه شخص ثالث', url: 'https://centralinsurance.ir', icon: 'fa-solid fa-car-burst',
+                    category: 'work' },
+                { id: 47, name: 'بیمه بازار', url: 'https://bimebazar.com', icon: 'fa-solid fa-shield-halved',
+                    category: 'work' },
+                { id: 48, name: 'خدمات اشتغال مراکز کاریابی', url: 'https://karyab.mcls.gov.ir',
+                    icon: 'fa-solid fa-magnifying-glass', category: 'work' },
+                // car
+                { id: 49, name: 'سهمیه سوخت', url: 'https://www.utcms.ir/', icon: 'fa-solid fa-gas-pump',
+                category: 'car' },
+                { id: 50, name: 'سایپا (ایران‌اکار)', url: 'https://saipa.iranecar.com/', icon: 'fa-solid fa-car',
+                    category: 'car' },
+                { id: 51, name: 'ایران‌خودرو', url: 'https://esale.ikco.ir/#!/Login?t=0', icon: 'fa-solid fa-car-side',
+                    category: 'car' },
+                { id: 52, name: 'استعلام مالیات خودرو', url: 'https://cartransfer.tax.gov.ir/',
+                    icon: 'fa-solid fa-file-invoice-dollar', category: 'car' },
+                { id: 53, name: 'کارت سوخت', url: 'https://fcs.niopdc.ir/', icon: 'fa-solid fa-id-card-clip',
+                    category: 'car' },
+                { id: 54, name: 'راهور ناجا (پلاک و گواهینامه)', url: 'https://rahvar.gov.ir', icon: 'fa-solid fa-car-on',
+                    category: 'car' },
+                { id: 55, name: 'سخا (مدارک خودرو)', url: 'https://sakha.epolice.ir/portal/login',
+                    icon: 'fa-solid fa-file-shield', category: 'car' },
+                { id: 56, name: 'نوبت‌دهی وام خودرو (طرح خودرو)', url: 'https://auto.dolat.ir', icon: 'fa-solid fa-key',
+                    category: 'car' },
+                { id: 57, name: 'سازمان حمل و نقل', url: 'https://www.rmto.ir/', icon: 'fa-solid fa-truck',
+                    category: 'car' },
+                { id: 58, name: 'اوتوران (تاکسی اینترنتی)', url: 'https://ohtoran.com', icon: 'fa-solid fa-car-people',
+                    category: 'car' },
+                { id: 59, name: 'راهور ۱۲۰', url: 'https://www.rahvar120.ir/', icon: 'fa-solid fa-clipboard-check',
+                    category: 'car' },
+                { id: 60, name: 'گواهینامه رانندگی', url: 'https://golastik.rahvar.gov.ir', icon: 'fa-solid fa-id-card',
+                    category: 'car' },
+                { id: 61, name: 'بیمه بدنه و ثالث ایتول', url: 'https://itoll.com/bimeh', icon: 'fa-solid fa-shield-car',
+                    category: 'car' },
+                { id: 62, name: 'سامانه یکپارچه خودرو', url: 'https://esale.ikco.ir/#!/', icon: 'fa-solid fa-car',
+                    category: 'car' },
+                { id: 63, name: 'ایتول', url: 'https://itoll.com/', icon: 'fa-solid fa-car-side', category: 'car' },
+                { id: 64, name: 'استعلام و پرداخت خلافی خودرو و موتور', url: 'https://khalafi.ir/',
+                    icon: 'fa-solid fa-file-invoice-dollar', category: 'car' },
+                { id: 65, name: 'گواهی نامه موتور', url: 'https://iranianmotorco.ir/', icon: 'fa-solid fa-motorcycle',
+                    category: 'car' },
+                { id: 66, name: 'لاستیک بارز', url: 'https://barez.org/', icon: 'fa-solid fa-car', category: 'car' },
+                { id: 67, name: 'لاستیک کویر', url: 'https://kavirtire.ir/esale', icon: 'fa-solid fa-car',
+                category: 'car' },
+                { id: 68, name: 'ایران خودرو', url: 'https://customer.ikco.ir/', icon: 'fa-solid fa-car',
+                category: 'car' },
+                { id: 69, name: 'دوگانه کردن خودرو', url: 'https://gcr.niopdc.ir/', icon: 'fa-solid fa-gas-pump',
+                    category: 'car' },
+                { id: 70, name: 'خودرو فرسوده', url: 'https://nnhk.ir/auth/sso/login', icon: 'fa-solid fa-car-burst',
+                    category: 'car' },
+                { id: 71, name: 'سپند سرویس مدارس', url: 'https://irtusepand.ir/', icon: 'fa-solid fa-school',
+                    category: 'car' },
+                // gov
+                { id: 72, name: 'یافتن کد پستی', url: 'https://gnaf.post.ir/portal', icon: 'fa-solid fa-link',
+                    category: 'gov' },
+                { id: 73, name: 'گواهی کد پستی-سایت پست', url: 'https://gnaf.post.ir/v2/main', icon: 'fa-solid fa-link',
+                    category: 'gov' },
+                { id: 74, name: 'ورود دولت من', url: 'https://sso.my.gov.ir/login', icon: 'fa-solid fa-right-to-bracket',
+                    category: 'gov' },
+                { id: 75, name: 'درخواست طلاق (ماسیر)', url: 'https://masir.23055.ir/login',
+                    icon: 'fa-solid fa-heart-crack', category: 'gov' },
+                { id: 76, name: 'خدمات قضایی', url: 'https://adliran.ir', icon: 'fa-solid fa-gavel', category: 'gov' },
+                { id: 77, name: 'سامانه سخا', url: 'https://sakha.epolice.ir/portal/login', icon: 'fa-solid fa-file-shield',
+                    category: 'gov' },
+                { id: 78, name: 'خودنویس', url: 'https://khodnevis.mrud.ir/', icon: 'fa-solid fa-signature',
+                category: 'gov' },
+                { id: 79, name: 'درگاه ملی دولت هوشمند', url: 'https://dolat.ir', icon: 'fa-solid fa-landmark-dome',
+                    category: 'gov' },
+                { id: 80, name: 'احراز هویت دیجیتال (اهوال)', url: 'https://ahval.ir', icon: 'fa-solid fa-user-shield',
+                    category: 'gov' },
+                { id: 81, name: 'سامانه ثنا', url: 'https://adliran.ir/index.php/sabtename',
+                    icon: 'fa-solid fa-fingerprint', category: 'gov' },
+                { id: 82, name: 'ابلاغیه', url: 'https://iehraz.adliran.ir/Login', icon: 'fa-solid fa-envelope-open-text',
+                    category: 'gov' },
+                { id: 83, name: 'ثبت احوال (ثبتahoal و اسناد)', url: 'https://sabteahval.ir',
+                    icon: 'fa-solid fa-address-card', category: 'gov' },
+                { id: 84, name: 'کارت ملی هوشمند', url: 'https://inquiry.nacr.ir', icon: 'fa-solid fa-id-card',
+                    category: 'gov' },
+                { id: 85, name: 'استعلام علت مراجعه (وحدت رویه)', url: 'https://tele.judiciary.ir',
+                    icon: 'fa-solid fa-phone-volume', category: 'gov' },
+                { id: 86, name: 'املاک و اسناد (دفترخانه)', url: 'https://sanaml.espacenet.ir',
+                    icon: 'fa-solid fa-file-signature', category: 'gov' },
+                { id: 87, name: 'سامانه نظارت و ارزشیابی', url: 'https://oecd.mcls.gov.ir',
+                    icon: 'fa-solid fa-clipboard-check', category: 'gov' },
+                { id: 88, name: 'سازمان نظام مهندسی', url: 'https://brce.ir', icon: 'fa-solid fa-helmet-safety',
+                    category: 'gov' },
+                { id: 89, name: 'ثبت‌ثانی (فوریتی سند)', url: 'https://sanam.iri.ir', icon: 'fa-solid fa-fax',
+                    category: 'gov' },
+                { id: 90, name: 'خدمات ثامن (گواهی فوت و وارث)', url: 'https://thamen.ir',
+                    icon: 'fa-solid fa-file-contract', category: 'gov' },
+                { id: 91, name: 'آثار و دارایی دولت (آستی)', url: 'https://asty.my.gov.ir', icon: 'fa-solid fa-vault',
+                    category: 'gov' },
+                { id: 92, name: 'سامانه نیکوکاری و محرومیت‌زدایی', url: 'https://un.treatment.ir',
+                    icon: 'fa-solid fa-hands-holding-heart', category: 'gov' },
+                { id: 93, name: 'پنل پیشخوان دولت', url: 'https://my.panelpishkhan.ir/login',
+                    icon: 'fa-solid fa-building-columns', category: 'gov' },
+                { id: 94, name: 'مسکن ملی', url: 'https://saman.mrud.ir/', icon: 'fa-solid fa-house', category: 'gov' },
+                { id: 95, name: 'گواهی پستی تأیید کد پستی', url: 'https://gnaf.post.ir/portal',
+                    icon: 'fa-solid fa-envelopes-bulk', category: 'gov' },
+                { id: 96, name: 'نوبت‌دهی سازمان ثبت اسناد', url: 'https://my.ssaa.ir', icon: 'fa-solid fa-file-signature',
+                    category: 'gov' },
+                { id: 97, name: 'املاک اسکان', url: 'https://amlak.mrud.ir/', icon: 'fa-solid fa-landmark',
+                    category: 'gov' },
+                { id: 98, name: 'سامانه حمایت', url: 'https://hemayat.sfara.ir/', icon: 'fa-solid fa-landmark',
+                    category: 'gov' },
+                { id: 99, name: 'احراز نشانی پست', url: 'https://ehraz.post.ir/', icon: 'fa-solid fa-landmark',
+                    category: 'gov' },
+                { id: 100, name: 'نیروهای مسلح (ساتا)', url: 'https://esata.ir/', icon: 'fa-solid fa-landmark',
+                    category: 'gov' },
+                { id: 101, name: 'بنیاد شهید', url: 'https://my.isaar.ir/', icon: 'fa-solid fa-landmark',
+                category: 'gov' },
+                { id: 102, name: 'گزینش آجا', url: 'https://gozinesh.aja.ir/portal/home/', icon: 'fa-solid fa-landmark',
+                    category: 'gov' },
+                { id: 103, name: 'سامانه سیمین', url: 'https://simin.hadafmandi.ir/login', icon: 'fa-solid fa-landmark',
+                    category: 'gov' },
+                // edu
+                { id: 104, name: 'فنی حرفه ای سایت اصلی', url: 'https://portaltvto.com/',
+                    icon: 'fa-solid fa-screwdriver-wrench', category: 'edu' },
+                { id: 105, name: 'کودکستان یاب', url: 'http://satta.medu.ir', icon: 'fa-solid fa-child',
+                category: 'edu' },
+                { id: 106, name: 'تأییدیه تحصیلی', url: 'https://emt.medu.ir/', icon: 'fa-solid fa-stamp',
+                category: 'edu' },
+                { id: 107, name: 'آموزشیار (دانشگاه آزاد)', url: 'https://stdn.iau.ir/Student/Pages/acmstd/loginPage.jsp',
+                    icon: 'fa-solid fa-user-graduate', category: 'edu' },
+                { id: 108, name: 'آزمون دانشگاه آزاد', url: 'https://azmoon.iau.ir/', icon: 'fa-solid fa-pen-to-square',
+                    category: 'edu' },
+                { id: 109, name: 'تأییدیه دانشگاه آزاد', url: 'https://inquiry.tagfa.iau.ir/', icon: 'fa-solid fa-stamp',
+                    category: 'edu' },
+                { id: 110, name: 'وام رفاه دانشجویی', url: 'https://refah.swf.ir/', icon: 'fa-solid fa-hand-holding-dollar',
+                    category: 'edu' },
+                { id: 111, name: 'سازمان سنجش', url: 'https://sanjesh.org/', icon: 'fa-solid fa-file-pen',
+                category: 'edu' },
+                { id: 112, name: 'مای مدیو (شاد مدرسه)', url: 'https://my.medu.ir/login.html?1',
+                    icon: 'fa-solid fa-book-open-reader', category: 'edu' },
+                { id: 113, name: 'نمونه سوالات کانون', url: 'https://www.kanoon.ir/Public/ExamQuestions',
+                    icon: 'fa-solid fa-book', category: 'edu' },
+                { id: 114, name: 'سامانه شاد', url: 'https://web.shad.ir', icon: 'fa-solid fa-school', category: 'edu' },
+                { id: 115, name: 'سامانه آفتاب (دانشگاهیان)', url: 'https://aftab.medu.ir',
+                    icon: 'fa-solid fa-chalkboard-user', category: 'edu' },
+                { id: 116, name: 'سامانه تربیت', url: 'https://tarbiat.medu.ir', icon: 'fa-solid fa-graduation-cap',
+                    category: 'edu' },
+                { id: 117, name: 'ثبت‌نام الکترونیک مدارس', url: 'https://reg.medu.ir', icon: 'fa-solid fa-user-pen',
+                    category: 'edu' },
+                { id: 118, name: 'سامانه مهدکودک و آموزش (مدیو)', url: 'https://kids.medu.ir', icon: 'fa-solid fa-child',
+                    category: 'edu' },
+                { id: 119, name: 'سامانه کارشناسی ارشد و دکتری (سنجش)', url: 'https://phd.online.sanjesh.org',
+                    icon: 'fa-solid fa-certificate', category: 'edu' },
+                { id: 120, name: 'سامانه کاردانی به کارشناسی', url: 'https://kaasani.online.sanjesh.org',
+                    icon: 'fa-solid fa-diploma', category: 'edu' },
+                { id: 121, name: 'پرتال امتحانات هنرستان (فنی‌حرفه‌ای)', url: 'https://irtce.ir',
+                    icon: 'fa-solid fa-wrench', category: 'edu' },
+                { id: 122, name: 'بنیاد ملی نخبگان', url: 'https://bmn.ir', icon: 'fa-solid fa-award', category: 'edu' },
+                { id: 123, name: 'سامانه موسسه آموزش عالی غیرانتفاعی', url: 'https://gheiremontaz.org',
+                    icon: 'fa-solid fa-building-user', category: 'edu' },
+                { id: 124, name: 'سامانه آموزش تکمیلی (فنی‌کده)', url: 'https://elearning.ir',
+                    icon: 'fa-solid fa-laptop-code', category: 'edu' },
+                { id: 125, name: 'سامانه گلستان پیام نور', url: 'https://reg.pnu.ac.ir/home/Default.htm',
+                    icon: 'fa-solid fa-graduation-cap', category: 'edu' },
+                { id: 126, name: 'پرداخت هزینه گواهینامه فنی و حرفه ای', url: 'https://pay.portaltvto.com/pay/licence2',
+                    icon: 'fa-solid fa-credit-card', category: 'edu' },
+                { id: 127, name: 'نمایش گواهینامه های فنی و حرفه ای',
+                    url: 'https://azmoon.portaltvto.com/estelam/estelam', icon: 'fa-solid fa-certificate',
+                    category: 'edu' },
+                { id: 128, name: 'کارت ورود به جلسه آزمون فنی و حرفه ای', url: 'https://azmoon.portaltvto.com/',
+                    icon: 'fa-solid fa-ticket', category: 'edu' },
+                { id: 129, name: 'ادواری فنی حرفه ای', url: 'https://azmoon.irantvto.ir/',
+                    icon: 'fa-solid fa-screwdriver-wrench', category: 'edu' },
+                { id: 130, name: 'هم‌آوای علمی کاربردی', url: 'https://edu.uast.ac.ir/', icon: 'fa-solid fa-graduation-cap',
+                    category: 'edu' },
+                { id: 131, name: 'مای سنجش', url: 'http://my.sanjesh.org', icon: 'fa-solid fa-graduation-cap',
+                    category: 'edu' },
+                { id: 132, name: 'جهاد دانشگاهی', url: 'https://hrtc.ir/', icon: 'fa-solid fa-graduation-cap',
+                    category: 'edu' },
+                { id: 133, name: 'دانشجویان بهزیستی', url: 'http://student.behzisti.net/',
+                    icon: 'fa-solid fa-graduation-cap', category: 'edu' },
+                { id: 134, name: 'ثبت نام کتاب درسی', url: 'https://irtextbook.ir', icon: 'fa-solid fa-book-open',
+                    category: 'edu' },
+                // social
+                { id: 135, name: 'ایتا وب', url: 'https://web.eitaa.com/', icon: 'fa-solid fa-paper-plane',
+                    category: 'social' },
+                { id: 136, name: 'روبیکا وب', url: 'https://web.rubika.ir/', icon: 'fa-solid fa-comment-dots',
+                    category: 'social' },
+                { id: 137, name: 'شاد وب', url: 'https://web.shad.ir/', icon: 'fa-solid fa-child-reaching',
+                    category: 'social' },
+                { id: 138, name: 'بله وب', url: 'https://web.bale.ai', icon: 'fa-solid fa-comments',
+                category: 'social' },
+                { id: 139, name: 'ایتا (نسخه دسکتاپ)', url: 'https://desk.eitaa.com', icon: 'fa-solid fa-desktop',
+                    category: 'social' },
+                { id: 140, name: 'روبیکا (نسخه وب پلاس)', url: 'https://web-plus.rubika.ir',
+                    icon: 'fa-solid fa-comment-medical', category: 'social' },
+                { id: 141, name: 'بیسیم', url: 'https://web.bissim.ir', icon: 'fa-solid fa-tower-broadcast',
+                    category: 'social' },
+                { id: 142, name: 'گپ', url: 'https://web.gap.im', icon: 'fa-solid fa-comment', category: 'social' },
+                { id: 143, name: 'سروش پلاس', url: 'https://web.splus.ir', icon: 'fa-solid fa-comment-sms',
+                    category: 'social' },
+                { id: 144, name: 'نشان (اسنپ الاکس‌مسگر)', url: 'https://social.snapp.ir', icon: 'fa-solid fa-hashtag',
+                    category: 'social' },
+                { id: 145, name: 'اینستاگرام', url: 'https://www.instagram.com', icon: 'fa-solid fa-instagram',
+                    category: 'social' },
+                { id: 146, name: 'تلگرام وب', url: 'https://web.telegram.org', icon: 'fa-solid fa-telegram',
+                    category: 'social' },
+                { id: 147, name: 'واتساپ وب', url: 'https://web.whatsapp.com', icon: 'fa-solid fa-whatsapp',
+                    category: 'social' },
+                { id: 148, name: 'یوتیوب', url: 'https://www.youtube.com', icon: 'fa-solid fa-youtube',
+                category: 'social' },
+                { id: 149, name: 'آپارات', url: 'https://www.aparat.com', icon: 'fa-solid fa-video',
+                category: 'social' },
+                { id: 150, name: 'لینکدین', url: 'https://www.linkedin.com', icon: 'fa-solid fa-linkedin',
+                    category: 'social' },
+                // tools
+                { id: 151, name: 'نشان', url: 'https://neshan.org/', icon: 'fa-solid fa-map-location-dot',
+                    category: 'tools' },
+                { id: 152, name: 'بلد', url: 'https://balad.ir/', icon: 'fa-solid fa-location-dot', category: 'tools' },
+                { id: 153, name: 'تبدیل عکس ۳×۴', url: 'https://opt.imum.ir/', icon: 'fa-solid fa-image-portrait',
+                    category: 'tools' },
+                { id: 154, name: 'دارالقرآن', url: 'https://telavat.ir/', icon: 'fa-solid fa-book-quran',
+                    category: 'tools' },
+                { id: 155, name: 'پنل مبین‌نت', url: 'https://my.mobinnet.ir/', icon: 'fa-solid fa-wifi',
+                category: 'tools' },
+                { id: 156, name: 'مخابرات (قبض و پرداخت)', url: 'https://adsl.tci.ir/panel/quickpay',
+                    icon: 'fa-solid fa-phone', category: 'tools' },
+                { id: 157, name: 'سدف (گاز خانوار)', url: 'https://www.niopdc.ir/', icon: 'fa-solid fa-fire-flame-simple',
+                    category: 'tools' },
+                { id: 158, name: 'بلیط ۷۸۰ (پرواز)', url: 'https://780.ir/tourism/flights', icon: 'fa-solid fa-plane',
+                    category: 'tools' },
+                { id: 159, name: 'رجا (قطار)', url: 'https://www.raja.ir/', icon: 'fa-solid fa-train',
+                category: 'tools' },
+                { id: 160, name: 'قبضینو', url: 'https://ghabzino.com/', icon: 'fa-solid fa-receipt',
+                category: 'tools' },
+                { id: 161, name: 'ایتول', url: 'https://itoll.com/', icon: 'fa-solid fa-car-rear', category: 'tools' },
+                { id: 162, name: 'IlovePDF', url: 'https://www.ilovepdf.com', icon: 'fa-solid fa-file-pdf',
+                    category: 'tools' },
+                { id: 163, name: 'اسنپ', url: 'https://snapp.ir', icon: 'fa-solid fa-taxi', category: 'tools' },
+                { id: 164, name: 'تپسی', url: 'https://tapsi.ir', icon: 'fa-solid fa-car', category: 'tools' },
+                { id: 165, name: 'دیجی‌کالا', url: 'https://www.digikala.com', icon: 'fa-solid fa-cart-shopping',
+                    category: 'tools' },
+                { id: 166, name: 'دیجی‌پی (درگاه پرداخت)', url: 'https://www.digipay.ir', icon: 'fa-solid fa-wallet',
+                    category: 'tools' },
+                { id: 167, name: 'الوقت (تقویم و اوقات شرعی)', url: 'https://alwaset.com', icon: 'fa-solid fa-mosque',
+                    category: 'tools' },
+                { id: 168, name: 'نوبت‌دهی پزشکی (بهسا)', url: 'https://bms.medu.ir', icon: 'fa-solid fa-stethoscope',
+                    category: 'tools' },
+                { id: 169, name: 'سامانه پست (رهگیری مرسولات)', url: 'https://tracking.post.ir',
+                    icon: 'fa-solid fa-truck-fast', category: 'tools' },
+                { id: 170, name: 'زنجیره تأمین (تقاضای کارت یارانه)', url: 'https://eghlighi.ir',
+                    icon: 'fa-solid fa-boxes-stacked', category: 'tools' },
+                { id: 171, name: 'سامانه اوقات پرواز پروازی', url: 'https://flightio.com',
+                    icon: 'fa-solid fa-plane-departure', category: 'tools' },
+                { id: 172, name: 'آفتاب‌نیوز (اخبار روز)', url: 'https://www.aftabnews.ir',
+                    icon: 'fa-solid fa-newspaper', category: 'tools' },
+                { id: 173, name: 'گوگل', url: 'https://www.google.com', icon: 'fa-solid fa-magnifying-glass',
+                    category: 'tools' },
+                { id: 174, name: 'گوگل درایو', url: 'https://drive.google.com', icon: 'fa-solid fa-google-drive',
+                    category: 'tools' },
+                { id: 175, name: 'فونت فارسی', url: 'https://fontiran.com', icon: 'fa-solid fa-font',
+                category: 'tools' },
+                { id: 176, name: 'برق من', url: 'https://bargheman.com/home', icon: 'fa-solid fa-bolt',
+                category: 'tools' },
+                { id: 177, name: 'ایران‌خودرو (خدمات پس از فروش)', url: 'https://www.ikco.ir',
+                    icon: 'fa-solid fa-headset', category: 'tools' },
+                { id: 178, name: 'ساعت و زمان جهانی', url: 'https://time.ir', icon: 'fa-solid fa-clock',
+                    category: 'tools' },
+                { id: 179, name: 'سهیم (انحصار وراثت)',
+                    url: 'https://dadbanan.com/post/593/%D8%B3%D8%A7%D9%85%D8%A7%D9%86%D9%87-%D8%B3%D9%87%DB%8C%D9%85-%D9%88-%DA%AF%D9%88%D8%A7%D9%87%DB%8C-%D8%A7%D9%86%D8%AD%D8%B5%D8%A7%D8%B1-%D9%88%D8%B1%D8%A7%D8%AB%D8%AA',
+                    icon: 'fa-solid fa-file-contract', category: 'tools' },
+                { id: 180, name: 'شمیم', url: '#', icon: 'fa-solid fa-toolbox', category: 'tools' },
+                { id: 181, name: 'چت GPT', url: 'https://chatgpt.com/', icon: 'fa-solid fa-toolbox',
+                category: 'tools' },
+                { id: 182, name: 'چت DeepSeek', url: 'https://chat.deepseek.com/', icon: 'fa-solid fa-toolbox',
+                    category: 'tools' },
+                { id: 183, name: 'چت Grok', url: 'https://grok.com/', icon: 'fa-solid fa-toolbox', category: 'tools' }
+            ];
+            return defaultLinks;
+        }
+
+        // ============================================
+        // توابع اصلی
+        // ============================================
+
+        function getNextId() {
+            if (linksData.length === 0) return 1;
+            return Math.max(...linksData.map(l => l.id)) + 1;
+        }
+
+        function openAddModal(category) {
+            editingId = null;
+            document.getElementById('modalTitle').innerHTML = '<i class="fa-solid fa-plus-circle" style="color:var(--success)"></i> افزودن لینک جدید';
+            document.getElementById('modalDesc').textContent = 'اطلاعات لینک جدید را وارد کنید';
+            document.getElementById('modalName').value = '';
+            document.getElementById('modalUrl').value = '';
+            document.getElementById('modalIcon').value = 'fa-solid fa-link';
+            if (category && CATEGORIES[category]) {
+                document.getElementById('modalCategory').value = category;
+            }
+            document.getElementById('modalSaveBtn').textContent = 'افزودن';
+            document.getElementById('modalOverlay').classList.add('active');
+        }
+
+        function openEditModal(id) {
+            const link = linksData.find(l => l.id === id);
+            if (!link) return;
+            editingId = id;
+            document.getElementById('modalTitle').innerHTML = '<i class="fa-solid fa-pen" style="color:var(--warning)"></i> ویرایش لینک';
+            document.getElementById('modalDesc').textContent = 'اطلاعات لینک را ویرایش کنید';
+            document.getElementById('modalName').value = link.name;
+            document.getElementById('modalUrl').value = link.url;
+            document.getElementById('modalIcon').value = link.icon || 'fa-solid fa-link';
+            document.getElementById('modalCategory').value = link.category;
+            document.getElementById('modalSaveBtn').textContent = 'ذخیره تغییرات';
+            document.getElementById('modalOverlay').classList.add('active');
+        }
+
+        function closeModal() {
+            document.getElementById('modalOverlay').classList.remove('active');
+            editingId = null;
+        }
+
+        function saveLink() {
+            const name = document.getElementById('modalName').value.trim();
+            const url = document.getElementById('modalUrl').value.trim();
+            const icon = document.getElementById('modalIcon').value.trim() || 'fa-solid fa-link';
+            const category = document.getElementById('modalCategory').value;
+
+            if (!name || !url) {
+                showToast('لطفاً عنوان و آدرس لینک را وارد کنید', 'error');
+                return;
+            }
+
+            if (editingId) {
+                // ویرایش
+                const index = linksData.findIndex(l => l.id === editingId);
+                if (index !== -1) {
+                    linksData[index] = { ...linksData[index], name, url, icon, category };
+                    saveToGitHub(linksData).then(() => {
+                        renderAll();
+                        closeModal();
+                    }).catch(() => {});
+                }
+            } else {
+                // افزودن
+                const newLink = {
+                    id: getNextId(),
+                    name,
+                    url,
+                    icon,
+                    category
+                };
+                linksData.push(newLink);
+                saveToGitHub(linksData).then(() => {
+                    renderAll();
+                    closeModal();
+                }).catch(() => {});
+            }
+        }
+
+        function deleteLink(id) {
+            if (!confirm('آیا از حذف این لینک مطمئن هستید؟')) return;
+            linksData = linksData.filter(l => l.id !== id);
+            saveToGitHub(linksData).then(() => {
+                renderAll();
+                showToast('لینک با موفقیت حذف شد', 'success');
+            }).catch(() => {});
+        }
+
+        // ============================================
+        // رندر کردن
+        // ============================================
+
+        function renderAll() {
+            const container = document.getElementById('categories-container');
+            container.innerHTML = '';
+
+            const categoryKeys = Object.keys(CATEGORIES);
+
+            categoryKeys.forEach(catKey => {
+                const cat = CATEGORIES[catKey];
+                const catLinks = linksData.filter(l => l.category === catKey);
+
+                const section = document.createElement('section');
+                section.className = 'cat';
+                section.id = catKey;
+                section.dataset.title = cat.name;
+
+                const title = document.createElement('h2');
+                title.style.color = cat.color;
+                title.innerHTML = `
+                    <span><i class="${cat.icon}"></i> ${cat.name}</span>
+                    <div class="cat-actions">
+                        <button class="btn-add" onclick="openAddModal('${catKey}')">
+                            <i class="fa-solid fa-plus"></i> افزودن
+                        </button>
+                    </div>
+                `;
+                section.appendChild(title);
+
+                const grid = document.createElement('div');
+                grid.className = 'grid';
+
+                if (catLinks.length === 0) {
+                    const empty = document.createElement('div');
+                    empty.className = 'empty-state';
+                    empty.innerHTML = `<i class="fa-solid fa-inbox"></i>هیچ لینکی در این دسته وجود ندارد<br><small>برای افزودن کلیک کنید</small>`;
+                    grid.appendChild(empty);
+                } else {
+                    catLinks.forEach(link => {
+                        const card = document.createElement('a');
+                        card.className = 'card';
+                        card.href = link.url;
+                        card.target = '_blank';
+                        card.rel = 'noopener';
+                        card.style.borderRightColor = cat.color;
+                        card.dataset.name = link.name;
+
+                        card.innerHTML = `
+                            <i class="${link.icon || 'fa-solid fa-link'} icon" style="color:${cat.color}"></i>
+                            <span>${link.name}</span>
+                            <span class="card-actions">
+                                <button class="btn-edit" onclick="event.preventDefault();event.stopPropagation();openEditModal(${link.id})" title="ویرایش">
+                                    <i class="fa-solid fa-pen"></i>
+                                </button>
+                                <button class="btn-delete" onclick="event.preventDefault();event.stopPropagation();deleteLink(${link.id})" title="حذف">
+                                    <i class="fa-solid fa-trash"></i>
+                                </button>
+                            </span>
+                        `;
+                        grid.appendChild(card);
+                    });
+                }
+
+                section.appendChild(grid);
+                container.appendChild(section);
+            });
+
+            updateBadges();
+            updateCount();
+            search();
+        }
+
+        function updateBadges() {
+            const categoryKeys = Object.keys(CATEGORIES);
+            categoryKeys.forEach(catKey => {
+                const count = linksData.filter(l => l.category === catKey).length;
+                const badge = document.getElementById(`badge-${catKey}`);
+                if (badge) badge.textContent = count;
+            });
+            document.getElementById('badge-all').textContent = linksData.length;
+        }
+
+        function updateCount() {
+            document.getElementById('count').textContent = linksData.length + ' لینک در ' + Object.keys(CATEGORIES).length +
+                ' دسته';
+        }
+
+        // ============================================
+        // جستجو و تب‌ها
+        // ============================================
+
+        function search() {
+            const q = document.getElementById('searchInput').value.trim().toLowerCase();
+            let shown = 0;
+
+            document.querySelectorAll('.cat').forEach(function(sec) {
+                const secShow = (activeTab === 'all' || activeTab === sec.id);
+                let anyVisible = false;
+
+                sec.querySelectorAll('.grid .card').forEach(function(card) {
+                    const cardName = card.dataset.name || '';
+                    const match = cardName.toLowerCase().includes(q);
+
+                    if (secShow && match) {
+                        card.style.display = '';
+                        anyVisible = true;
+                        shown++;
+                    } else {
+                        card.style.display = 'none';
+                    }
+                });
+
+                // نمایش پیام خالی
+                const grid = sec.querySelector('.grid');
+                let emptyMsg = grid.querySelector('.empty-state');
+                if (secShow && shown === 0 && q) {
+                    if (!emptyMsg) {
+                        emptyMsg = document.createElement('div');
+                        emptyMsg.className = 'empty-state';
+                        emptyMsg.innerHTML =
+                            `<i class="fa-solid fa-search"></i>نتیجه‌ای یافت نشد<br><small>جستجوی "${q}" در این دسته</small>`;
+                        grid.appendChild(emptyMsg);
+                    }
+                    emptyMsg.style.display = '';
+                } else if (emptyMsg) {
+                    emptyMsg.style.display = 'none';
+                }
+
+                sec.style.display = (secShow && (q ? anyVisible : true)) ? '' : 'none';
+            });
+
+            // به‌روزرسانی تعداد
+            const allCards = document.querySelectorAll('.cat .grid .card');
+            let visibleCount = 0;
+            allCards.forEach(c => {
+                if (c.style.display !== 'none') visibleCount++;
+            });
+            document.getElementById('count').textContent = visibleCount + ' نتیجه نمایش داده شد';
+        }
+
+        // رویدادهای تب
+        document.querySelectorAll('.tab-btn').forEach(function(btn) {
+            btn.addEventListener('click', function() {
+                document.querySelectorAll('.tab-btn').forEach(function(b) {
+                    b.classList.remove('active');
+                });
+                btn.classList.add('active');
+                activeTab = btn.dataset.tab;
+                search();
+                window.scrollTo({ top: 250, behavior: 'smooth' });
+            });
+        });
+
+        // ============================================
+        // Toast
+        // ============================================
+
+        function showToast(message, type = 'info') {
+            const existing = document.querySelector('.toast');
+            if (existing) existing.remove();
+
+            const toast = document.createElement('div');
+            toast.className = `toast ${type}`;
+            toast.textContent = message;
+            document.body.appendChild(toast);
+
+            setTimeout(() => {
+                toast.style.opacity = '0';
+                toast.style.transition = 'opacity .3s';
+                setTimeout(() => toast.remove(), 300);
+            }, 3500);
+        }
+
+        // ============================================
+        // بارگذاری اولیه
+        // ============================================
+
+        // تلاش برای اتصال خودکار در صورت وجود توکن در localStorage
+        const savedToken = localStorage.getItem('github_token');
+        const savedRepo = localStorage.getItem('github_repo');
+        const savedPath = localStorage.getItem('github_path');
+
+        if (savedToken && savedRepo) {
+            document.getElementById('githubToken').value = savedToken;
+            document.getElementById('githubRepo').value = savedRepo;
+            if (savedPath) document.getElementById('githubPath').value = savedPath;
+            // اتصال خودکار
+            setTimeout(() => connectGitHub(), 500);
+        } else {
+            // بارگذاری داده‌های پیش‌فرض
+            linksData = getDefaultLinks();
+            renderAll();
+            showToast('برای ذخیره دائمی، به GitHub متصل شوید', 'info');
+        }
+
+        // ذخیره تنظیمات هنگام اتصال
+        const origConnect = connectGitHub;
+        connectGitHub = function() {
+            const token = document.getElementById('githubToken').value.trim();
+            const repo = document.getElementById('githubRepo').value.trim();
+            const path = document.getElementById('githubPath').value.trim();
+
+            if (token && repo) {
+                localStorage.setItem('github_token', token);
+                localStorage.setItem('github_repo', repo);
+                if (path) localStorage.setItem('github_path', path);
+            }
+            origConnect.call(this);
+        };
+
+        // برای سازگاری
+        window.openAddModal = openAddModal;
+        window.openEditModal = openEditModal;
+        window.deleteLink = deleteLink;
+        window.saveLink = saveLink;
+        window.closeModal = closeModal;
+        window.connectGitHub = connectGitHub;
+        window.search = search;
+    </script>
+</body>
+</html>
